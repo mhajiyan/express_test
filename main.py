@@ -10,43 +10,32 @@
 # *****************************************************************************
 
 
-import time
-import tkinter
-
-from pyfirmata import Arduino
-from pyfirmata.util import Iterator
-import serial.tools.list_ports
-import numpy as np
+from depcall.depcfun import *
 from pymata4H import pymata4
 from tkinter import *
 
 
-def pin_3_AO():
-    try:
-        if float(pin3_value.get()) >= 20.0:
-            board2.pwm_write(3,255)
 
-        elif float(pin3_value.get()) <= 4.0:
-            board2.pwm_write(3, 0)
-        else:
-            board2.pwm_write(3, int(15.938 * float(pin3_value.get()) - 63.75))
-    except:
-        board2.pwm_write(3, 0)
-        print("please use numeric value")
 
-def pin_5_AO():
-    try:
-        if float(pin5_value.get()) >= 20.0:
-            board2.pwm_write(5, 255)
+# def pin_5_AO():
+#     try:
+#         if float(pin5_value.get()) >= 20.0:
+#             board2.pwm_write(5, 255)
+#
+#         elif float(pin5_value.get()) <= 4.0:
+#             board2.pwm_write(5, 0)
+#
+#         else:
+#             board2.pwm_write(5, int(15.938 * float(pin5_value.get()) - 63.75))
+#     except:
+#         board2.pwm_write(5, 0)
+#         print("please use numeric value")
 
-        elif float(pin5_value.get()) <= 4.0:
-            board2.pwm_write(5, 0)
 
-        else:
-            board2.pwm_write(5, int(15.938 * float(pin5_value.get()) - 63.75))
-    except:
-        board2.pwm_write(5, 0)
-        print("please use numeric value")
+def pin_3_DO_off():
+    board2.digital_pin_write(3, 0)
+def pin_3_DO_on():
+    board2.digital_pin_write(3, 1)
 
 def pin_4_DO_off():
     board2.digital_pin_write(4, 0)
@@ -142,15 +131,17 @@ def I2C_voltage():
 board2 = pymata4.Pymata4()
 # ite = Iterator(board)
 # ite.start()
-board2.set_pin_mode_pwm_output(3)       #AO 4-20 mA from the board [pwm to 4-20 using converter]
-board2.set_pin_mode_pwm_output(5)       #AO 4-20 mA from the board [pwm to 4-20 using converter]
-board2.set_pin_mode_digital_output(4)   #DO 0/5V from the board to OFF and ON (has to be conencted to step up to 24 V)
-board2.set_pin_mode_digital_output(7)   #DO 0/5V from the board to OFF and ON (has to be conencted to step up to 24 V)
-board2.set_pin_mode_analog_input(0)     #AI to read 0-5 V from the different source
-board2.set_pin_mode_pwm_output(10)      #AO PWM to generate range 0-5 V from the board and then step up to 0-10 V for the drive
-board2.set_pin_mode_pwm_output(11)      #AO PWM to generate range 0-5 V from the board and then step up to 0-10 V for the drive
-board2.set_pin_mode_digital_output(2)      #to enable switching Current Analog inout to drive from AI1 to AI2
-board2.set_pin_mode_digital_output(13)     #to enable switching Voltage Analog inout to drive from AI1 to AI2
+# board2.set_pin_mode_pwm_output(3)       #AO 4-20 mA from the board [pwm to 4-20 using converter]
+# board2.set_pin_mode_pwm_output(5)       #AO 4-20 mA from the board [pwm to 4-20 using converter]
+# board2.set_pin_mode_digital_output(4)   #DO 0/5V from the board to OFF and ON (has to be conencted to step up to 24 V)
+# board2.set_pin_mode_digital_output(7)   #DO 0/5V from the board to OFF and ON (has to be conencted to step up to 24 V)
+# board2.set_pin_mode_analog_input(0)     #AI to read 0-5 V from the different source
+# board2.set_pin_mode_pwm_output(10)      #AO PWM to generate range 0-5 V from the board and then step up to 0-10 V for the drive
+# board2.set_pin_mode_pwm_output(11)      #AO PWM to generate range 0-5 V from the board and then step up to 0-10 V for the drive
+# board2.set_pin_mode_digital_output(2)      #to enable switching Current Analog inout to drive from AI1 to AI2
+# board2.set_pin_mode_digital_output(13)     #to enable switching Voltage Analog inout to drive from AI1 to AI2
+
+config_pins(board=board2)
 
 # I2C addresses for Current and Voltage
 address_v = 0x60
@@ -160,32 +151,31 @@ address_c = 0x61
 root = Tk()
 root.title("IO Testing GUI")
 
-#pin3 properties
-pin3_text = Label(root, text="AO_Pin3: 4-20 [mA]", bg="white",font=("Helvetica",11)).grid(row=0, column=0,sticky='w')
-pin3_value = float()
-pin3_value = Entry(root, borderwidth=5)
-pin3_value.grid(row=0, column=1)
-pin3_submit = Button(root, text="Send", command=pin_3_AO, fg="black",font=("Helvetica",11))
-pin3_submit.grid(row=0, column=2)
-
-
-#pin 5 properties
-pin5_text = Label(root, text="AO_Pin5: 4-20 [mA]", bg="white",font=("Helvetica",11)).grid(row=1, column=0,sticky='w')
-pin5_value = float()
-pin5_value = Entry(root, borderwidth=5)
-pin5_value.grid(row=1, column=1)
-pin5_submit = Button(root, text="Send", command=pin_5_AO, fg="black",font=("Helvetica",11))
-pin5_submit.grid(row=1, column=2)
+# pin3 properties
+pin3_text = Label(root, text="DO_Pin3: 0/24 [V] - DI-1 Drive ", bg="white",font=("Helvetica",11)).grid(row=1, column=0,sticky='w')
+pin3_submit_off = Button(root, text="OFF",font=("Helvetica",11), padx=14, command=pin_3_DO_off, fg="black",)
+pin3_submit_off.grid(row=1, column=1,sticky = "w")
+pin3_submit_on = Button(root, text="ON", padx=14,command=pin_3_DO_on, fg="green",font=("Helvetica",11))
+pin3_submit_on.grid(row=1, column=1,sticky = "e")
+#
+#
+# #pin 5 properties
+# pin5_text = Label(root, text="AO_Pin5: 4-20 [mA]", bg="white",font=("Helvetica",11)).grid(row=1, column=0,sticky='w')
+# pin5_value = float()
+# pin5_value = Entry(root, borderwidth=5)
+# pin5_value.grid(row=1, column=1)
+# pin5_submit = Button(root, text="Send", command=pin_5_AO, fg="black",font=("Helvetica",11))
+# pin5_submit.grid(row=1, column=2)
 #
 #pin 4 properties
-pin4_text = Label(root,text="DO_Pin4: 0/24 [V]" ,bg="white",font=("Helvetica",11)).grid(row=2, column=0,sticky='w')
+pin4_text = Label(root,text="DO_Pin4: 0/24 [V] - DI-2 Drive " ,bg="white",font=("Helvetica",11)).grid(row=2, column=0,sticky='w')
 pin4_submit_off = Button(root, text="OFF",font=("Helvetica",11), padx=14, command=pin_4_DO_off, fg="black",)
 pin4_submit_off.grid(row=2, column=1,sticky = "w")
 pin4_submit_on = Button(root, text="ON", padx=14,command=pin_4_DO_on, fg="green",font=("Helvetica",11))
 pin4_submit_on.grid(row=2, column=1,sticky = "e")
 #
 #pin 7 properties
-pin7_text = Label(root,text="DO_Pin7: 0/24 [V]" ,bg="white",font=("Helvetica",11)).grid(row=3, column=0,sticky='w')
+pin7_text = Label(root,text="DO_Pin7: 0/24 [V] - Drive Power OFF/ON" ,bg="white",font=("Helvetica",11)).grid(row=3, column=0,sticky='w')
 pin7_submit_off = Button(root, text="OFF",font=("Helvetica",11), padx=14, command=pin_7_DO_off, fg="black",)
 pin7_submit_off.grid(row=3, column=1,sticky = "w")
 pin7_submit_on = Button(root, text="ON", padx=14,command=pin_7_DO_on, fg="green", font=("Helvetica",11))
