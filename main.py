@@ -52,10 +52,10 @@ def pin_2_DO_off():
 def pin_2_DO_on():
     board2.digital_pin_write(2, 1)
 #
-def pin_13_DO_off():
-    board2.digital_pin_write(13, 0)
-def pin_13_DO_on():
-    board2.digital_pin_write(13, 1)
+# def pin_13_DO_off():
+#     board2.digital_pin_write(13, 0)
+# def pin_13_DO_on():
+#     board2.digital_pin_write(13, 1)
 #
 def pin_10_AO():
     try :
@@ -98,10 +98,8 @@ def I2C_current():
 def I2C_voltage():
     try:
         board2.set_pin_mode_i2c()
-        print("hello")
-        vo = int((float(value) / 10) * 4095)
+        vo = int((float(I2C_v_value.get()) / 10) * 4095)
         a = vo >> 4
-        print("im here" + vo)
         b = ((vo & 15) << 4)
         board2.i2c_write(address_v, [64, a, b])
     except:
@@ -116,10 +114,6 @@ def I2C_voltage():
 #         return p[0]
 
 
-# pin functions
-
-
-
 
 
 # main code
@@ -129,6 +123,11 @@ def I2C_voltage():
 # board = Arduino(port)
 
 board2 = pymata4.Pymata4()
+# pins configration
+config_pins(board=board2)
+
+
+
 # ite = Iterator(board)
 # ite.start()
 # board2.set_pin_mode_pwm_output(3)       #AO 4-20 mA from the board [pwm to 4-20 using converter]
@@ -141,7 +140,6 @@ board2 = pymata4.Pymata4()
 # board2.set_pin_mode_digital_output(2)      #to enable switching Current Analog inout to drive from AI1 to AI2
 # board2.set_pin_mode_digital_output(13)     #to enable switching Voltage Analog inout to drive from AI1 to AI2
 
-config_pins(board=board2)
 
 # I2C addresses for Current and Voltage
 address_v = 0x60
@@ -184,37 +182,37 @@ pin7_submit_on.grid(row=3, column=1,sticky = "e")
 #
 #
 pin2_text = Label(root,text="DO_Pin12: 0/24 [V]" ,bg="white",font=("Helvetica",11)).grid(row=4, column=0,sticky='w')
-pin2_submit_off = Button(root, text="C-AI1",font=("Helvetica",11), padx=14, command=pin_2_DO_off, fg="black",)
+pin2_submit_off = Button(root, text="C-AI1/AI2-V",font=("Helvetica",7), padx=14, command=pin_2_DO_off, fg="black",)
 pin2_submit_off.grid(row=4, column=1,sticky = "w")
-pin2_submit_on = Button(root, text="C-AI2", padx=14,command=pin_2_DO_on, fg="green",font=("Helvetica",11))
+pin2_submit_on = Button(root, text="V-AI1/AI2-C", padx=14,command=pin_2_DO_on, fg="green",font=("Helvetica",7))
 pin2_submit_on.grid(row=4, column=1,sticky = "e")
 
-
-pin13_text = Label(root,text="DO_Pin13: 0/24 [V]" ,bg="white",font=("Helvetica",11)).grid(row=5, column=0,sticky='w')
-pin13_submit_off = Button(root, text="V-AI1",font=("Helvetica",11), padx=14, command=pin_13_DO_off, fg="black",)
-pin13_submit_off.grid(row=5, column=1,sticky = "w")
-pin13_submit_on = Button(root, text="V-AI2", padx=14,command=pin_13_DO_on, fg="green",font=("Helvetica",11))
-pin13_submit_on.grid(row=5, column=1,sticky = "e")
+## pin 13 old archit
+# pin13_text = Label(root,text="DO_Pin13: 0/24 [V]" ,bg="white",font=("Helvetica",11)).grid(row=5, column=0,sticky='w')
+# pin13_submit_off = Button(root, text="V-AI1",font=("Helvetica",11), padx=14, command=pin_13_DO_off, fg="black",)
+# pin13_submit_off.grid(row=5, column=1,sticky = "w")
+# pin13_submit_on = Button(root, text="V-AI2", padx=14,command=pin_13_DO_on, fg="green",font=("Helvetica",11))
+# pin13_submit_on.grid(row=5, column=1,sticky = "e")
 #
 
 
 
-# pin 10 properties
-pin10_text = Label(root, text="AO_Pin10: 0-10 [V]", bg="white",font=("Helvetica",11)).grid(row=6, column=0,sticky='w')
-pin10_value = float()
-pin10_value = Entry(root, borderwidth=5)
-pin10_value.grid(row=6, column=1)
-pin10_submit = Button(root, text="Send", command=pin_10_AO, fg="black",font=("Helvetica",11))
-pin10_submit.grid(row=6, column=2)
-
+# # pin 10 properties
+# pin10_text = Label(root, text="AO_Pin10: 0-10 [V]", bg="white",font=("Helvetica",11)).grid(row=6, column=0,sticky='w')
+# pin10_value = float()
+# pin10_value = Entry(root, borderwidth=5)
+# pin10_value.grid(row=6, column=1)
+# pin10_submit = Button(root, text="Send", command=pin_10_AO, fg="black",font=("Helvetica",11))
+# pin10_submit.grid(row=6, column=2)
 #
-# pin 11 properties
-pin11_text = Label(root, text="AO_Pin11: 0-10 [V]", bg="white",font=("Helvetica",11)).grid(row=7, column=0,sticky='w')
-pin11_value = float()
-pin11_value = Entry(root, borderwidth=5,text="hello")
-pin11_value.grid(row=7, column=1)
-pin11_submit = Button(root, text="Send", command=pin_11_AO, fg="black",font=("Helvetica",11))
-pin11_submit.grid(row=7, column=2)
+# #
+# # pin 11 properties
+# pin11_text = Label(root, text="AO_Pin11: 0-10 [V]", bg="white",font=("Helvetica",11)).grid(row=7, column=0,sticky='w')
+# pin11_value = float()
+# pin11_value = Entry(root, borderwidth=5,text="hello")
+# pin11_value.grid(row=7, column=1)
+# pin11_submit = Button(root, text="Send", command=pin_11_AO, fg="black",font=("Helvetica",11))
+# pin11_submit.grid(row=7, column=2)
 #
 #
 #
