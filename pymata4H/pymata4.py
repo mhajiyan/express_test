@@ -23,7 +23,6 @@ import serial
 # noinspection PyPackageRequirements
 from serial.tools import list_ports
 # noinspection PyPackageRequirementscd
-from serial.serialutil import SerialException
 import socket
 import sys
 import threading

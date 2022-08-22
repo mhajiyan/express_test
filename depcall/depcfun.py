@@ -3,23 +3,14 @@ import pathlib
 import string
 import time
 import random
-import psutil
 import platform
 import subprocess
 import pymata4H
 import pymata4H.pymata4 as pymat
-import serial
-import serial.tools.list_ports
-from serial.tools.list_ports import grep
-from selenium import webdriver
 from selenium.webdriver.common.by import By
-from pyfirmata.util import Iterator
-import json
 import os
 import requests
 import psutil
-import numpy as np
-from selenium.webdriver.firefox.options import Options
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
