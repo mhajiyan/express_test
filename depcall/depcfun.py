@@ -40,6 +40,9 @@ def config_pins(board):
     board.set_pin_mode_i2c()
     board.i2c_write(address_c, [64, 600])   # to make the current module converter to 0
     board.i2c_write(address_v, [64, 0])    # to make the voltage module converter to 0
+    board.set_pin_mode_pwm_output(12) # to control color of the LED
+    board.set_pin_mode_pwm_output(11) # to control color of the LED
+    board.set_pin_mode_pwm_output(13) # to control color of the LED
 
 
 def read_analog(board, signal):

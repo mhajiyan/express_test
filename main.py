@@ -94,7 +94,6 @@ def I2C_current():
         print("please enter correct value")
 
 
-
 def I2C_voltage():
     try:
         board2.set_pin_mode_i2c()
@@ -125,6 +124,9 @@ def I2C_voltage():
 board2 = pymata4.Pymata4()
 # pins configration
 config_pins(board=board2)
+board2.pwm_write(12, 255)
+board2.pwm_write(11, 255)
+board2.pwm_write(13, 255)
 
 
 
