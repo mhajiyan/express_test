@@ -10,15 +10,15 @@ import pymata4H.pymata4 as pymat
 from selenium.webdriver.common.by import By
 import os
 import requests
-import psutil
+# from psutil import process_iter
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-def kill():
-    for p in psutil.process_iter(attrs=['pid', 'name']):
-        if p.info['name'] == "firefox.exe":
-            os.system("taskkill /im firefox.exe /f")  # kill the firefox in taskbar OS- close all firefox windows
+# def kill():
+#     for p in process_iter(attrs=['pid', 'name']):
+#         if p.info['name'] == "firefox.exe":
+#             os.system("taskkill /im firefox.exe /f")  # kill the firefox in taskbar OS- close all firefox windows
 
 address_v = 0x60  # I2C for voltage module
 address_c = 0x61  # I2C for current module

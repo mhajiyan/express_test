@@ -51,6 +51,16 @@ def pin_2_DO_off():
     board2.digital_pin_write(2, 0)
 def pin_2_DO_on():
     board2.digital_pin_write(2, 1)
+
+def pin_5_read():
+    value_pin5 = read_digital(board2, 5)
+    value_pin5_str = value_pin5
+    pin5_value_actual.config(text=value_pin5_str)
+
+def pin_6_read():
+    value_pin6 = read_digital(board2, 6)
+    value_pin6_str = value_pin6
+    pin6_value_actual.config(text=value_pin6_str)
 #
 # def pin_13_DO_off():
 #     board2.digital_pin_write(13, 0)
@@ -239,7 +249,16 @@ I2C_v_value.grid(row=10, column=1)
 I2C_v_submit = Button(root, text="Send", command=I2C_voltage, fg="black",font=("Helvetica",11))
 I2C_v_submit.grid(row=10, column=2)
 
+pin5_text = Label(root,text="Drive Digtal Out_1_Pin5: 0/1" ,bg="white",font=("Helvetica",11)).grid(row=13, column=0,sticky='w')
+pin5_value_actual = Label(root,text= "NaN" ,bg="white",font=("Helvetica",11))
+pin5_value_actual.grid(row=13, column=1,sticky='w')
+pin5_value = Button(root,bg="white", text="Update", fg="green" ,command=pin_5_read ,font=("Helvetica",11)).grid(row=13, column=2,sticky='w')
 
+
+pin6_text = Label(root,text="Drive Digtal Out_2_Pin6: 0/1" ,bg="white",font=("Helvetica",11)).grid(row=14, column=0,sticky='w')
+pin6_value_actual = Label(root,text= "NaN" ,bg="white",font=("Helvetica",11))
+pin6_value_actual.grid(row=14, column=1,sticky='w')
+pin6_value = Button(root,bg="white", text="Update", fg="green" ,command=pin_6_read ,font=("Helvetica",11)).grid(row=14, column=2,sticky='w')
 
 
 #exit button properties
