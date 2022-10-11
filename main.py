@@ -67,13 +67,24 @@ def pin_6_read():
 # def pin_13_DO_on():
 #     board2.digital_pin_write(13, 1)
 #
-def pin_10_AO():
-    try :
-        board2.pwm_write(10, int(pin10_value.get()))
-        # pin10.write(float(pin10_value.get())/10)
-    except:
-        print("please enter correct value")
-#
+# def pin_10_AO():
+#     try :
+#         board2.pwm_write(10, int(pin10_value.get()))
+#         # pin10.write(float(pin10_value.get())/10)
+#     except:
+#         print("please enter correct value")
+# #
+
+def pin_9_read():
+    value_pin9 = read_digital(board2, 9)
+    value_pin9_str = value_pin9
+    pin9_value_actual.config(text=value_pin9_str)
+
+def pin_10_read():
+    value_pin10 = read_digital(board2, 10)
+    value_pin10_str = value_pin10
+    pin10_value_actual.config(text=value_pin10_str)
+
 def pin_11_AO():
     try :
         board2.pwm_write(11, int(pin11_value.get()))
@@ -260,9 +271,20 @@ pin6_value_actual = Label(root,text= "NaN" ,bg="white",font=("Helvetica",11))
 pin6_value_actual.grid(row=14, column=1,sticky='w')
 pin6_value = Button(root,bg="white", text="Update", fg="green" ,command=pin_6_read ,font=("Helvetica",11)).grid(row=14, column=2,sticky='w')
 
+pin9_text = Label(root,text="Relay_1_Pin9: 0/1" ,bg="white",font=("Helvetica",11)).grid(row=15, column=0,sticky='w')
+pin9_value_actual = Label(root,text= "NaN" ,bg="white",font=("Helvetica",11))
+pin9_value_actual.grid(row=15, column=1,sticky='w')
+pin9_value = Button(root,bg="white", text="Update", fg="green" ,command=pin_9_read ,font=("Helvetica",11)).grid(row=15, column=2,sticky='w')
+
+pin10_text = Label(root,text="Relay_2_Pin10: 0/1" ,bg="white",font=("Helvetica",11)).grid(row=16, column=0,sticky='w')
+pin10_value_actual = Label(root,text= "NaN" ,bg="white",font=("Helvetica",11))
+pin10_value_actual.grid(row=16, column=1,sticky='w')
+pin10_value = Button(root,bg="white", text="Update", fg="green" ,command=pin_10_read ,font=("Helvetica",11)).grid(row=16, column=2,sticky='w')
+
+
 
 #exit button properties
-close_button = Button(root, text="Exit", padx=50,  command=root.destroy, fg="red",font=("Helvetica",11)).grid(row=15, columnspan=3)
+close_button = Button(root, text="Exit", padx=50,  command=root.destroy, fg="red",font=("Helvetica",11)).grid(row=20, columnspan=3)
 
 root.mainloop()
 
