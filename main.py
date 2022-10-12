@@ -135,6 +135,7 @@ address_c = 0x61
 
 express = Tk()
 express.title("IO Testing GUI")
+express.iconbitmap("armstrong.ico")
 
 #pin 7 properties
 pin7_text = Label(express,text="Power OFF/ON" ,bg="white",font=("Helvetica",11)).grid(row=1, column=0,sticky='w')
@@ -168,7 +169,7 @@ pin2_submit_on.config(width=15)
 pin2_submit_on.grid(row=4, column=2,sticky = "w")
 
 
-I2C_c_text = Label(express, text="Analog Current Input(4-20 mA)", bg="white",font=("Helvetica",11)).grid(row=8, column=0,sticky='w')
+I2C_c_text = Label(express, text="Analog Current Input (4-20 mA)", bg="white",font=("Helvetica",11)).grid(row=8, column=0,sticky='w')
 I2C_c_value = float()
 I2C_c_value = Entry(express, borderwidth=5)
 I2C_c_value.grid(row=8, column=1)
@@ -176,7 +177,7 @@ I2C_c_submit = Button(express, text="Send", command=I2C_current, fg="black",font
 I2C_c_submit.grid(row=8, column=2, sticky="e")
 
 
-I2C_v_text = Label(express, text="Analog Voltage Input(0-10 V)", bg="white",font=("Helvetica",11)).grid(row=9, column=0,sticky='w')
+I2C_v_text = Label(express, text="Analog Voltage Input (0-10 V)", bg="white",font=("Helvetica",11)).grid(row=9, column=0,sticky='w')
 I2C_v_value = float()
 I2C_v_value = Entry(express, borderwidth=5)
 I2C_v_value.grid(row=9, column=1)
@@ -184,7 +185,7 @@ I2C_v_submit = Button(express, text="Send", command=I2C_voltage, fg="black",font
 I2C_v_submit.grid(row=9, column=2, sticky="e")
 
 
-pin0_text = Label(express,text="Analog Output(0-5V)" ,bg="white",font=("Helvetica",11)).grid(row=10, column=0,sticky='w')
+pin0_text = Label(express,text="Analog Output (0-5V)" ,bg="white",font=("Helvetica",11)).grid(row=10, column=0,sticky='w')
 pin0_value_actual = Label(express,text= "NaN" ,bg="white",font=("Helvetica",11))
 pin0_value_actual.grid(row=10, column=1,sticky='w')
 
