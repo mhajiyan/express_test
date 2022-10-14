@@ -83,7 +83,7 @@ def update():
 def pin_0_read():
     value_pin0 = board2.analog_read(0)
     value_pin0_str = str(round((value_pin0[0]/1024)*5, 3) * 20 / 5)
-    pin0_value_actual.config(text=value_pin0_str + " [A]")
+    pin0_value_actual.config(text=value_pin0_str + " [mA]")
 
 
 def I2C_current():
@@ -185,7 +185,7 @@ I2C_v_submit = Button(express, text="Send", command=I2C_voltage, fg="black",font
 I2C_v_submit.grid(row=9, column=2, sticky="e")
 
 
-pin0_text = Label(express,text="Analog Output (0-5V)" ,bg="white",font=("Helvetica",11)).grid(row=10, column=0,sticky='w')
+pin0_text = Label(express,text="Analog Output (0-20 mA)" ,bg="white",font=("Helvetica",11)).grid(row=10, column=0,sticky='w')
 pin0_value_actual = Label(express,text= "NaN" ,bg="white",font=("Helvetica",11))
 pin0_value_actual.grid(row=10, column=1,sticky='w')
 
