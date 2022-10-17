@@ -82,7 +82,7 @@ def update():
 
 def pin_0_read():
     value_pin0 = board2.analog_read(0)
-    value_pin0_str = str(round((value_pin0[0]/1024)*5, 3) * 20 / 5)
+    value_pin0_str = str(round((value_pin0[0]/1024)*5, 3) * 3.2 + 4)
     pin0_value_actual.config(text=value_pin0_str + " [mA]")
 
 
