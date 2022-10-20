@@ -83,7 +83,8 @@ def update():
 def pin_0_read():
     value_pin0 = board2.analog_read(0)
     value_pin0_str = str(round((value_pin0[0]/1024)*5, 3) * 3.2 + 4)
-    pin0_value_actual.config(text=value_pin0_str + " [mA]")
+    float_num = float(value_pin0_str)
+    pin0_value_actual.config(text=str(round(float_num,2)) + " [mA]")
 
 
 def I2C_current():
@@ -135,7 +136,7 @@ address_c = 0x61
 
 express = Tk()
 express.title("IO Testing GUI")
-express.iconbitmap("armstrong.ico")
+# express.iconbitmap("armstrong.ico")
 
 #pin 7 properties
 pin7_text = Label(express,text="Power OFF/ON" ,bg="white",font=("Helvetica",11)).grid(row=1, column=0,sticky='w')
@@ -145,7 +146,7 @@ pin7_submit_on = Button(express, text="ON", padx=14,command=pin_7_DO_on, fg="gre
 pin7_submit_on.grid(row=1, column=1,sticky = "e")
 
 # pin3 properties
-pin3_text = Label(express, text="Drive Digital Output 1", bg="white",font=("Helvetica",11)).grid(row=2, column=0,sticky='w')
+pin3_text = Label(express, text="Drive Digital Input 1", bg="white",font=("Helvetica",11)).grid(row=2, column=0,sticky='w')
 pin3_submit_off = Button(express, text="OFF",font=("Helvetica",11), padx=14, command=pin_3_DO_off, fg="black",)
 pin3_submit_off.grid(row=2, column=1,sticky = "w")
 pin3_submit_on = Button(express, text="ON", padx=14,command=pin_3_DO_on, fg="green",font=("Helvetica",11))
@@ -153,7 +154,7 @@ pin3_submit_on.grid(row=2, column=1,sticky = "e")
 
 
 #pin 4 properties
-pin4_text = Label(express,text="Drive Digital Output 2" ,bg="white",font=("Helvetica",11)).grid(row=3, column=0,sticky='w')
+pin4_text = Label(express,text="Drive Digital Input 2" ,bg="white",font=("Helvetica",11)).grid(row=3, column=0,sticky='w')
 pin4_submit_off = Button(express, text="OFF",font=("Helvetica",11), padx=14, command=pin_4_DO_off, fg="black",)
 pin4_submit_off.grid(row=3, column=1,sticky = "w")
 pin4_submit_on = Button(express, text="ON", padx=14,command=pin_4_DO_on, fg="green",font=("Helvetica",11))
