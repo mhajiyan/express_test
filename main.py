@@ -133,6 +133,22 @@ def I2C_voltage():
         print("please enter correct voltage value")
 
 
+def dfrobot_I2C_voltage_v0_write():
+    try:
+        board2.set_pin_mode_i2c()
+        write_dfrobot_i2c_voltage(board2, v0=float(dfrobot_v0_value.get()))
+    except Exception as e:
+        print(e)
+        print("please enter correct voltage value")
+
+
+def dfrobot_I2C_voltage_v1_write():
+    try:
+        board2.set_pin_mode_i2c()
+        write_dfrobot_i2c_voltage(board2, v1=float(dfrobot_v1_value.get()))
+    except:
+        print("please enter correct voltage value")
+
 def close():
     board2.shutdown()
     express.destroy()
@@ -204,6 +220,22 @@ pin2_submit_off.grid(row=4, column=1,sticky = "w")
 pin2_submit_on = Button(express, text="AI1: Voltage, AI2: Current", padx=14,command=pin_2_DO_on, fg="green",font=("Helvetica",7))
 pin2_submit_on.config(width=15)
 pin2_submit_on.grid(row=4, column=2,sticky = "w")
+
+
+dfrobot_v0_text = Label(express, text="DFRobot Vout0 (0-10 V)", bg="white",font=("Helvetica",11)).grid(row=5, column=0,sticky='w')
+dfrobot_v0_value = float()
+dfrobot_v0_value = Entry(express, borderwidth=5)
+dfrobot_v0_value.grid(row=5, column=1)
+dfrobot_v0_submit = Button(express, text="Send", command=dfrobot_I2C_voltage_v0_write, fg="black",font=("Helvetica",11))
+dfrobot_v0_submit.grid(row=5, column=2, sticky="e")
+
+
+dfrobot_v1_text = Label(express, text="DFRobot Vout1 (0-10 V)", bg="white",font=("Helvetica",11)).grid(row=6, column=0,sticky='w')
+dfrobot_v1_value = float()
+dfrobot_v1_value = Entry(express, borderwidth=5)
+dfrobot_v1_value.grid(row=6, column=1)
+dfrobot_v1_submit = Button(express, text="Send", command=dfrobot_I2C_voltage_v1_write, fg="black",font=("Helvetica",11))
+dfrobot_v1_submit.grid(row=6, column=2, sticky="e")
 
 
 I2C_c_text = Label(express, text="Analog Current Input (4-20 mA)", bg="white",font=("Helvetica",11)).grid(row=8, column=0,sticky='w')

@@ -22,6 +22,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 address_v = 0x60  # I2C for voltage module
 address_c = 0x61  # I2C for current module
+DFROBOT_I2C_VOLTAGE = 0x58  # I2C for dfrobot voltage module 1 (a2=0, a1=0, a0=0)
 
 
 def config_pins(board):
@@ -113,6 +114,42 @@ def write_analog_voltage(board, pin:int, value):    # the range for value is 0-1
             print("please enter correct voltage value")
     except:
         print('analog voltage to the drive is not working !')
+
+
+def write_dfrobot_i2c_voltage(board, v0=None, v1=None, address=DFROBOT_I2C_VOLTAGE):
+    """
+    Write voltage to DFROBOT I2C DAC voltage module
+    :param board: pymata4 instance
+    :param v0: vout0 voltage (V)
+    :param v1: vou1 voltage (V)
+    :param address: address of I2C DAC voltage module
+    :return:
+    """
+    board.set_pin_mode_i2c()
+    packet = []
+    if v0 is not None and v1 is None:
+        packet.append(0b00000010)
+        data0 = int((float(v0) / 10) * 0xFFF)
+        packet.append(data0 & 0b1111)
+        packet.append(data0 >> 4)
+    elif v0 is None and v1 is not None:
+        packet.append(0b00000100)
+        data1 = int((float(v1) / 10) * 0xFFF)
+        packet.append(data1 & 0b1111)
+        packet.append(data1 >> 4)
+    elif v0 is not None and v1 is not None:
+        packet.append(0b00000010)
+        data0 = int((float(v0) / 10) * 0xFFF)
+        packet.append(data0 & 0b1111)
+        packet.append(data0 >> 4)
+        data1 = int((float(v1) / 10) * 0xFFF)
+        packet.append(data1 & 0b1111)
+        packet.append(data1 >> 4)
+    else:
+        print("Trying to write to DFROBOT_I2C_VOLTAGE with no values for vout0 or vout1")
+        return
+    print(f"writing to DFROBOT_I2C_VOLTAGE: {hex(address)} {packet}")
+    board.i2c_write(address, packet)
 
 
 def write_analog_default(board):
