@@ -27,6 +27,8 @@ address_c = 0x61  # I2C for current module
 def config_pins(board):
     board.set_pin_mode_analog_input(0)  # to read input from drive 4-20mA
     board.set_pin_mode_analog_input(1)  # to read input from drive 0-10V
+    board.set_pin_mode_analog_input(8)  # to read input from drive 4-20mA
+    board.set_pin_mode_analog_input(9)  # to read input from drive 0-10V
     board.set_pin_mode_digital_output(2)  # to toggle I2C module from AI1 to AI2 on the drive
     board.set_pin_mode_digital_output(3)  # to digital input 1 on drive
     board.set_pin_mode_digital_output(4)  # to digital input 2 on drive
@@ -60,11 +62,8 @@ def read_analog(board, signal):
 
 
 def read_digital(board, pin:int):
-    print('reading digital pin :')
     value = board.digital_read(int(pin))
-    print(f'digital value is {value[0]}')
     return value[0]
-
 
 
 def write_analog_current(board, pin:int, value:int):    #the range for value is 4-20 representing the min and max speed on the drive

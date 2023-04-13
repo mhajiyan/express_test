@@ -1,11 +1,12 @@
 #******************************************************************************
 #  DESCRIPTION: GUI for IO testing on the Arduino board connecting to all converter
-#  description of each components, drawings for the board and components are provided in the folder attached.
+#  description of each component, drawings for the board and components are provided in the folder attached.
 
 # this code is to test the IO components, signal conditioner and I2C Analog input boards to the drive with
 # Firmata Express.
-
-
+# Make Sure to only connect the Arduino board to the computer USB port
+# Or you can specify the COM port of Arduino board if you know it by entering the COM port number in the line below
+COM_PORT = None  # e.g. COM_PORT = 'COM10', default is None for auto-detection
 #  Hossein HAJIYAN, Masum MUSTAFA, Michael WU
 # *****************************************************************************
 
@@ -76,15 +77,31 @@ def update():
     pin_6_read()
     pin_9_read()
     pin_10_read()
-    pin_0_read()
+    pin_A0_read()
+    pin_A8_read()
+    pin_A9_read()
     express.after(1000, update)
 
 
-def pin_0_read():
+def pin_A0_read():
     value_pin0 = board2.analog_read(0)
     value_pin0_str = str(round((value_pin0[0]/1024)*5, 3) * 3.2 + 4)
     float_num = float(value_pin0_str)
-    pin0_value_actual.config(text=str(round(float_num,2)) + " [mA]")
+    pinA0_value_actual.config(text=str(round(float_num,2)) + " [mA]")
+    
+    
+def pin_A8_read():
+    value_pin8 = board2.analog_read(8)
+    value_pin8_str = str(round((value_pin8[0]/1024)*5, 3) * 3.2 + 4)
+    float_num = float(value_pin8_str)
+    pinA8_value_actual.config(text=str(round(float_num,2)) + " [mA]")
+
+
+def pin_A9_read():
+    value_pin9 = board2.analog_read(9)
+    value_pin9_str = str(round((value_pin9[0]/1024)*5, 3) * 3.2 + 4)
+    float_num = float(value_pin9_str)
+    pinA9_value_actual.config(text=str(round(float_num,2)) + " [mA]")
 
 
 def I2C_current():
@@ -121,12 +138,24 @@ def close():
     express.destroy()
 
 
-board2 = pymata4.Pymata4()
+board2 = pymata4.Pymata4(com_port=COM_PORT)
 # pins configuration
 config_pins(board=board2)
 board2.pwm_write(12, 255)
 board2.pwm_write(11, 255)
 board2.pwm_write(13, 255)
+
+
+def led_off():
+    board2.pwm_write(12, 0)
+    board2.pwm_write(11, 0)
+    board2.pwm_write(13, 0)
+
+
+def led_on():
+    board2.pwm_write(12, 255)
+    board2.pwm_write(11, 255)
+    board2.pwm_write(13, 255)
 
 
 # I2C addresses for Current and Voltage
@@ -139,11 +168,18 @@ express.title("IO Testing GUI")
 # express.iconbitmap("armstrong.ico")
 
 #pin 7 properties
-pin7_text = Label(express,text="Power OFF/ON" ,bg="white",font=("Helvetica",11)).grid(row=1, column=0,sticky='w')
+pin7_text = Label(express,text="Power OFF/ON" ,bg="white",font=("Helvetica",11)).grid(row=0, column=0,sticky='w')
 pin7_submit_off = Button(express, text="OFF",font=("Helvetica",11), padx=14, command=pin_7_DO_off, fg="black",)
-pin7_submit_off.grid(row=1, column=1,sticky = "w")
+pin7_submit_off.grid(row=0, column=1,sticky = "w")
 pin7_submit_on = Button(express, text="ON", padx=14,command=pin_7_DO_on, fg="green", font=("Helvetica",11))
-pin7_submit_on.grid(row=1, column=1,sticky = "e")
+pin7_submit_on.grid(row=0, column=1,sticky = "e")
+
+#LED properties pin 11,12,13
+LED_text = Label(express, text="LED OFF/ON", bg="white", font=("Helvetica", 11)).grid(row=1, column=0, sticky='w')
+LED_submit_off = Button(express, text="OFF", font=("Helvetica", 11), padx=14, command=led_off, fg="black", )
+LED_submit_off.grid(row=1, column=1, sticky="w")
+LED_submit_on = Button(express, text="ON", padx=14, command=led_on, fg="green", font=("Helvetica", 11))
+LED_submit_on.grid(row=1, column=1, sticky="e")
 
 # pin3 properties
 pin3_text = Label(express, text="Drive Digital Input 1", bg="white",font=("Helvetica",11)).grid(row=2, column=0,sticky='w')
@@ -186,10 +222,17 @@ I2C_v_submit = Button(express, text="Send", command=I2C_voltage, fg="black",font
 I2C_v_submit.grid(row=9, column=2, sticky="e")
 
 
-pin0_text = Label(express,text="Analog Output (0-20 mA)" ,bg="white",font=("Helvetica",11)).grid(row=10, column=0,sticky='w')
-pin0_value_actual = Label(express,text= "NaN" ,bg="white",font=("Helvetica",11))
-pin0_value_actual.grid(row=10, column=1,sticky='w')
+pinA0_text = Label(express,text="Drive Analog Output (4-20 mA)" ,bg="white",font=("Helvetica",11)).grid(row=10, column=0,sticky='w')
+pinA0_value_actual = Label(express,text= "NaN" ,bg="white",font=("Helvetica",11))
+pinA0_value_actual.grid(row=10, column=1,sticky='w')
 
+pinA8_text = Label(express,text="Flowmeter Analog Output (4-20 mA)" ,bg="white",font=("Helvetica",11)).grid(row=11, column=0,sticky='w')
+pinA8_value_actual = Label(express,text= "NaN" ,bg="white",font=("Helvetica",11))
+pinA8_value_actual.grid(row=11, column=1,sticky='w')
+
+pinA9_text = Label(express,text="DP Sensor Analog Output (4-20 mA)" ,bg="white",font=("Helvetica",11)).grid(row=12, column=0,sticky='w')
+pinA9_value_actual = Label(express,text= "NaN" ,bg="white",font=("Helvetica",11))
+pinA9_value_actual.grid(row=12, column=1,sticky='w')
 
 pin5_text = Label(express,text="Digital Output 1" ,bg="white",font=("Helvetica",11)).grid(row=13, column=0,sticky='w')
 pin5_value_actual = Label(express,text= "NaN" ,bg="white",font=("Helvetica",11))
