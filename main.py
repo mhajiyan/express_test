@@ -6,7 +6,7 @@
 # Firmata Express.
 # Make Sure to only connect the Arduino board to the computer USB port
 # Or you can specify the COM port of Arduino board if you know it by entering the COM port number in the line below
-COM_PORT = None  # e.g. COM_PORT = 'COM10', default is None for auto-detection
+COM_PORT = "COM7"  # e.g. COM_PORT = 'COM10', default is None for auto-detection
 #  Hossein HAJIYAN, Masum MUSTAFA, Michael WU
 # *****************************************************************************
 
@@ -80,6 +80,7 @@ def update():
     pin_A0_read()
     pin_A8_read()
     pin_A9_read()
+    pin_A10_read()
     express.after(1000, update)
 
 
@@ -102,6 +103,14 @@ def pin_A9_read():
     value_pin9_str = str(round((value_pin9[0]/1024)*5, 3) * 3.2 + 4)
     float_num = float(value_pin9_str)
     pinA9_value_actual.config(text=str(round(float_num,2)) + " [mA]")
+
+
+def pin_A10_read():
+    value_pin10 = board2.analog_read(10)
+    print(value_pin10)
+    value_pin10_str = round((value_pin10[0]/1024) * 5, 3)
+    float_num = float(value_pin10_str)
+    pinA10_value_actual.config(text=str(round(float_num,2)) + " [V]")
 
 
 def I2C_current():
@@ -266,24 +275,28 @@ pinA9_text = Label(express,text="DP Sensor Analog Output (4-20 mA)" ,bg="white",
 pinA9_value_actual = Label(express,text= "NaN" ,bg="white",font=("Helvetica",11))
 pinA9_value_actual.grid(row=12, column=1,sticky='w')
 
-pin5_text = Label(express,text="Digital Output 1" ,bg="white",font=("Helvetica",11)).grid(row=13, column=0,sticky='w')
+pinA10_text = Label(express,text="Valve Feedback (0-10 V)" ,bg="white",font=("Helvetica",11)).grid(row=13, column=0,sticky='w')
+pinA10_value_actual = Label(express,text= "NaN" ,bg="white",font=("Helvetica",11))
+pinA10_value_actual.grid(row=13, column=1, sticky='w')
+
+pin5_text = Label(express,text="Digital Output 1" ,bg="white",font=("Helvetica",11)).grid(row=14, column=0,sticky='w')
 pin5_value_actual = Label(express,text= "NaN" ,bg="white",font=("Helvetica",11))
-pin5_value_actual.grid(row=13, column=1,sticky='w')
+pin5_value_actual.grid(row=14, column=1,sticky='w')
 
 
-pin6_text = Label(express,text="Digital Output 2" ,bg="white",font=("Helvetica",11)).grid(row=14, column=0,sticky='w')
+pin6_text = Label(express,text="Digital Output 2" ,bg="white",font=("Helvetica",11)).grid(row=15, column=0,sticky='w')
 pin6_value_actual = Label(express,text= "NaN" ,bg="white",font=("Helvetica",11))
-pin6_value_actual.grid(row=14, column=1,sticky='w')
+pin6_value_actual.grid(row=15, column=1,sticky='w')
 
 
-pin9_text = Label(express,text="Relay 1" ,bg="white",font=("Helvetica",11)).grid(row=15, column=0,sticky='w')
+pin9_text = Label(express,text="Relay 1" ,bg="white",font=("Helvetica",11)).grid(row=16, column=0,sticky='w')
 pin9_value_actual = Label(express,text= "NaN" ,bg="white",font=("Helvetica",11))
-pin9_value_actual.grid(row=15, column=1,sticky='w')
+pin9_value_actual.grid(row=16, column=1,sticky='w')
 
 
-pin10_text = Label(express,text="Relay 2" ,bg="white",font=("Helvetica",11)).grid(row=16, column=0,sticky='w')
+pin10_text = Label(express,text="Relay 2" ,bg="white",font=("Helvetica",11)).grid(row=17, column=0,sticky='w')
 pin10_value_actual = Label(express,text= "NaN" ,bg="white",font=("Helvetica",11))
-pin10_value_actual.grid(row=16, column=1,sticky='w')
+pin10_value_actual.grid(row=17, column=1,sticky='w')
 
 #exit button properties
 close_button = Button(express, text="Exit", padx=50,  command=close, fg="red",font=("Helvetica",11)).grid(row=20, columnspan=3)

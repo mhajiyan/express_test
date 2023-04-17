@@ -29,7 +29,8 @@ def config_pins(board):
     board.set_pin_mode_analog_input(0)  # to read input from drive 4-20mA
     board.set_pin_mode_analog_input(1)  # to read input from drive 0-10V
     board.set_pin_mode_analog_input(8)  # to read input from drive 4-20mA
-    board.set_pin_mode_analog_input(9)  # to read input from drive 0-10V
+    board.set_pin_mode_analog_input(9)  # to read DP-sensor 4-20 mA
+    board.set_pin_mode_analog_input(10) # to read input from valve 0-10V
     board.set_pin_mode_digital_output(2)  # to toggle I2C module from AI1 to AI2 on the drive
     board.set_pin_mode_digital_output(3)  # to digital input 1 on drive
     board.set_pin_mode_digital_output(4)  # to digital input 2 on drive
