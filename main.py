@@ -6,7 +6,7 @@
 # Firmata Express.
 # Make Sure to only connect the Arduino board to the computer USB port
 # Or you can specify the COM port of Arduino board if you know it by entering the COM port number in the line below
-COM_PORT = "COM7"  # e.g. COM_PORT = 'COM10', default is None for auto-detection
+COM_PORT = None  # e.g. COM_PORT = 'COM10', default is None for auto-detection
 #  Hossein HAJIYAN, Masum MUSTAFA, Michael WU
 # *****************************************************************************
 
@@ -107,7 +107,6 @@ def pin_A9_read():
 
 def pin_A10_read():
     value_pin10 = board2.analog_read(10)
-    print(value_pin10)
     value_pin10_str = round((value_pin10[0]/1024) * 5, 3)
     float_num = float(value_pin10_str)
     pinA10_value_actual.config(text=str(round(float_num,2)) + " [V]")

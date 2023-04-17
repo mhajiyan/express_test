@@ -22,7 +22,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 address_v = 0x60  # I2C for voltage module
 address_c = 0x61  # I2C for current module
-DFROBOT_I2C_VOLTAGE = 0x58  # I2C for dfrobot voltage module 1 (a2=0, a1=0, a0=0)
+DFROBOT_I2C_VOLTAGE = 0x5F  # I2C for dfrobot voltage module 1 (a2=0, a1=0, a0=0)
 
 
 def config_pins(board):
